@@ -18,11 +18,7 @@ namespace FontChanger
         /// <summary>
         /// The Raster Fonts font family (Windows default).
         /// </summary>
-        RasterFonts,
-        /// <summary>
-        /// The NSinSum font family (for Windows 8 and up).
-        /// </summary>
-        NSinSum
+        RasterFonts
     }
 
     /// <summary>
@@ -69,7 +65,7 @@ namespace FontChanger
         private static extern int SetConsoleFont(IntPtr hOut, uint dwFontNum);
 
         // an array of our font families
-        private static string[] fontFamilies = { "Consolas", "Lucida Console", "Raster Fonts", "NSinSum" };
+        private static string[] fontFamilies = { "Consolas", "Lucida Console", "Raster Fonts" };
 
         /// <summary>
         /// Changes the current console font and size (for Windows NT and up).
