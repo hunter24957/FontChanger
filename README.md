@@ -2,7 +2,7 @@
 A simple wrapper for changing the Windows console font and size.
 
 # Example Usage
-'''
+```C#
 public void FontExample()
 {
     // changes the console font
@@ -12,4 +12,4 @@ public void FontExample()
     // waits to exit
     Console.ReadLine();
 }
-'''
+```
