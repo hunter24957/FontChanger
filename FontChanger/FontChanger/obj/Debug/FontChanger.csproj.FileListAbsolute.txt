@@ -1,6 +1,0 @@
-D:\Projects\Visual Studio\C#\FontChanger\FontChanger\bin\Debug\FontChanger.exe.config
-D:\Projects\Visual Studio\C#\FontChanger\FontChanger\bin\Debug\FontChanger.exe
-D:\Projects\Visual Studio\C#\FontChanger\FontChanger\bin\Debug\FontChanger.pdb
-D:\Projects\Visual Studio\C#\FontChanger\FontChanger\obj\Debug\FontChanger.csprojResolveAssemblyReference.cache
-D:\Projects\Visual Studio\C#\FontChanger\FontChanger\obj\Debug\FontChanger.exe
-D:\Projects\Visual Studio\C#\FontChanger\FontChanger\obj\Debug\FontChanger.pdb
