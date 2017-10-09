@@ -67,6 +67,9 @@ namespace FontChanger
         // an array of our font families
         private static string[] fontFamilies = { "Consolas", "Lucida Console", "Raster Fonts" };
 
+        // gets the standard output handle
+        private static IntPtr handle = GetStdHandle(-11);
+
         /// <summary>
         /// Changes the current console font and size (for Windows NT and up).
         /// </summary>
@@ -76,8 +79,6 @@ namespace FontChanger
         {
             // if we are not on windows nt or later we return
             if (Environment.OSVersion.Platform != PlatformID.Win32NT) return;
-            // gets the standard output handle
-            IntPtr handle = GetStdHandle(-11);
             // create out font details structure
             CONSOLE_FONT_INFO_EX newInfo = new CONSOLE_FONT_INFO_EX();
             // sets the size of the structure
@@ -90,6 +91,18 @@ namespace FontChanger
             newInfo.dwFontSize.y = size;
             // applies the font
             SetCurrentConsoleFontEx(handle, false, ref newInfo);
+        }
+
+        /// <summary>
+        /// Sets the current font size (for Windows NT and up).
+        /// </summary>
+        /// <param name="size"></param>
+        public static void ChangeFontSize(uint size)
+        {
+            // if we are not on windows nt or later we return
+            if (Environment.OSVersion.Platform != PlatformID.Win32NT) return;
+            // sets the console font size
+            SetConsoleFont(handle, size);
         }
     }
 }
