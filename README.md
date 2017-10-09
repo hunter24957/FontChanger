@@ -16,9 +16,9 @@ public void FontExample()
 ```
 Changing the current console font size.
 ```C#
-public void FontExample()
+public void FontSizeExample()
 {
-    // changes the console font
+    // changes the console font size
     ConsoleFont.ChangeFontSize(5);
     // prints a test sentence
     Console.WriteLine("Hello, World!");
