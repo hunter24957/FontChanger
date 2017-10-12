@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 
 namespace FontChanger
@@ -8,7 +8,7 @@ namespace FontChanger
     /// </summary>
     public enum FontFamily {
         /// <summary>
-        /// The Consolas font family.
+        /// The Consolas font family (Windows 8+ default).
         /// </summary>
         Consolas,
         /// <summary>
@@ -16,9 +16,29 @@ namespace FontChanger
         /// </summary>
         LucidaConsole,
         /// <summary>
-        /// The Raster Fonts font family (Windows default).
+        /// The Raster Fonts font family (Windows NT+ default).
         /// </summary>
-        RasterFonts
+        RasterFonts,
+        /// <summary>
+        /// The Courier New font family (Windows 8+ only).
+        /// </summary>
+        CourierNew,
+        /// <summary>
+        /// The Lucida Sans Typewrite font family (Windows 8+ only).
+        /// </summary>
+        LucidaSansTypewriter,
+        /// <summary>
+        /// The MS Gothic font family (Windows 8+ only).
+        /// </summary>
+        MSGothic,
+        /// <summary>
+        /// The NSimSun font family (Windows 8+ only).
+        /// </summary>
+        NSimSun,
+        /// <summary>
+        /// The SimSun-ExtB font family (Windows 8+ only).
+        /// </summary>
+        SimSunExtB
     }
 
     /// <summary>
@@ -65,7 +85,7 @@ namespace FontChanger
         private static extern int SetConsoleFont(IntPtr hOut, uint dwFontNum);
 
         // an array of our font families
-        private static string[] fontFamilies = { "Consolas", "Lucida Console", "Raster Fonts" };
+        private static string[] fontFamilies = { "Consolas", "Lucida Console", "Raster Fonts", "CourierNew", "Lucida Sans Typewriter", "MS Gothic", "NSimSun", "SimSunExtB" };
 
         // gets the standard output handle
         private static IntPtr handle = GetStdHandle(-11);
@@ -79,6 +99,34 @@ namespace FontChanger
         {
             // if we are not on windows nt or later we return
             if (Environment.OSVersion.Platform != PlatformID.Win32NT) return;
+            // sets console foreground color to default
+            Console.ForegroundColor = ConsoleColor.Gray;
+            // create out font details structure
+            CONSOLE_FONT_INFO_EX newInfo = new CONSOLE_FONT_INFO_EX();
+            // sets the size of the structure
+            newInfo.cbSize = (uint)Marshal.SizeOf(newInfo);
+            // gets a pointer to the facename buffer
+            IntPtr ptr = new IntPtr(newInfo.FaceName);
+            // writes font family name to the buffer
+            Marshal.Copy(fontFamilies[(int)font].ToCharArray(), 0, ptr, fontFamilies[(int)font].Length);
+            // sets the font size
+            newInfo.dwFontSize.y = size;
+            // applies the font
+            SetCurrentConsoleFontEx(handle, false, ref newInfo);
+        }
+
+        /// <summary>
+        /// Changes the current console font, size and color (for Windows NT and up).
+        /// </summary>
+        /// <param name="font"></param>
+        /// <param name="size"></param>
+        /// <param name="color"></param>
+        public static unsafe void ChangeFont(FontFamily font, short size, ConsoleColor color)
+        {
+            // if we are not on windows nt or later we return
+            if (Environment.OSVersion.Platform != PlatformID.Win32NT) return;
+            // sets console foreground color
+            Console.ForegroundColor = color;
             // create out font details structure
             CONSOLE_FONT_INFO_EX newInfo = new CONSOLE_FONT_INFO_EX();
             // sets the size of the structure
@@ -103,6 +151,35 @@ namespace FontChanger
             if (Environment.OSVersion.Platform != PlatformID.Win32NT) return;
             // sets the console font size
             SetConsoleFont(handle, size);
+        }
+
+        /// <summary>
+        /// Writes message to standard output stream in the font and size given.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="font"></param>
+        /// <param name="size"></param>
+        public static void WriteLineInFont(string text, FontFamily font, short size)
+        {
+            // changes the consoel font
+            ChangeFont(font, size);
+            // prints the text
+            Console.WriteLine(text);
+        }
+
+        /// <summary>
+        /// Writes message to standard output stream in the font, size and color given.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="font"></param>
+        /// <param name="size"></param>
+        /// <param name="color"></param>
+        public static void WriteLineInFont(string text, FontFamily font, short size, ConsoleColor color)
+        {
+            // changes the consoel font
+            ChangeFont(font, size, color);
+            // prints the text
+            Console.WriteLine(text);
         }
     }
 }
